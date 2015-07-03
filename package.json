@@ -1,0 +1,18 @@
+{
+  "name": "post_builder",
+  "version": "0.1.0",
+  "description": "App to assist with creating db for wordpress blogs",
+  "contributors": [],
+  "scripts": {
+    "start": "node ./server/server.js"
+  },
+  "dependencies": {
+    "nedb": "^1.1.2",
+    "q": "latest",
+    "restify": "latest",
+    "underscore": "^1.8.3"
+  },
+  "engines": {
+    "node": "0.12.x"
+  }
+}

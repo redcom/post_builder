@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="lib/mocha.css" />
+</head>
+<body>
+  <div id="mocha"></div>
+  <!-- TODO: Versioning -->
+  <script src="lib/mocha.js"></script>
+  <script src="lib/mocha-as-promised.js"></script>
+  <script src="lib/chai.js"></script>
+  <script src="lib/chai-as-promised.js"></script>
+  <script src="lib/sinon-1.7.3.js"></script>
+  <script src="lib/sinon-chai.js"></script>
+  <script>
+	  mocha.setup('bdd');
+  </script>
+
+  <script src="../js/q.min.js"></script>
+  <script src="../js/client_db.js"></script>
+  <script src="spec/client_db.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+    mocha.run();
+  </script>
+</body>
+</html>

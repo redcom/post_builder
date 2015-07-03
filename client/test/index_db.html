@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+		<p>Mainly a test of https://bugzilla.mozilla.org/show_bug.cgi?id=701634</p>
+		<table>
+			<tr><td>Straight test</td><td id="straight_test"></td></tr>
+			<tr><td>Web worker test</td><td id="web_worker_test"></td></tr>
+		</table>
+		<script src="index_db.js"></script>
+		<script type="text/javascript">
+			document.querySelector("#straight_test").textContent = test_db();
+
+			(new Worker("webworker.js")).onmessage = function(event) {
+				document.querySelector("#web_worker_test").textContent = event.data;
+			};
+
+			//This will ask you if you want to install as soon as page loads
+			navigator.mozApps.install("http://127.0.0.1:8000/test/index_db.webapp");
+		</script>
+	</body>
+</html>
