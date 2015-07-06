@@ -12,10 +12,17 @@ module.exports = function rest_api(options) {
     function map_route(endpoint, http_method, parameters, callback_fun) {
         var wrapped_callback = function wrapped_callback(req, res, next) {
             Q.try(function() {
-                var params = _.extend(parameters, req.params);
+                var params;
+                if (_.isArray(req.params)) {
+                    params = [];
+                    _.each(req.params, function(elem) {
+                        params.push(_.extend(elem, parameters));
+                    });
+                } else {
+                    params = _.extend(parameters, req.params);
+                }
                 return callback_fun(params);
             }).catch(function global_error(error) {
-                console.log(error);
                 return next(error);
             }).done(function global_done(value) {
                 res.send(value);
@@ -26,6 +33,118 @@ module.exports = function rest_api(options) {
         server[http_method](endpoint, wrapped_callback);
     }
 
+    // POST CONTENT
+
+
+    map_route(
+        "/rest/posts",
+        "post", {
+            table: 'posts',
+            created: Date.now()
+        },
+        function post_posts(params) {
+
+
+
+            var db_promise = Q.ninvoke(db, "insert", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+
+    map_route(
+        "/rest/posts",
+        "get", {
+            table: 'posts'
+        },
+        function get_posts(params) {
+            var db_promise = Q.ninvoke(db, "find", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+    // POST categories
+
+    map_route(
+        "/rest/categories",
+        "post", {
+            table: 'categories',
+            created: Date.now()
+        },
+        function post_categories(params) {
+            var db_promise = Q.ninvoke(db, "insert", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+
+    map_route(
+        "/rest/categories",
+        "get", {
+            table: 'categories'
+        },
+        function get_categories(params) {
+            var db_promise = Q.ninvoke(db, "find", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+
+    map_route(
+        "/rest/links",
+        "post", {
+            table: 'links',
+            created: Date.now()
+        },
+        function post_links(params) {
+            var db_promise = Q.ninvoke(db, "insert", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+
+    map_route(
+        "/rest/links",
+        "get", {
+            table: 'links'
+        },
+        function get_links(params) {
+            var db_promise = Q.ninvoke(db, "find", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+
     map_route(
         "/rest/db_check",
         "get", {},
@@ -33,10 +152,9 @@ module.exports = function rest_api(options) {
             var response = {
                 "check": "db"
             };
-
-            var db_promise = Q.ninvoke(db, "count", {}).then(function(err, count) {
-                if (!err && count) {
-                    response.db_count = count;
+            var db_promise = Q.ninvoke(db, "count", {}).then(function(count) {
+                if (count >= 0) {
+                    response.db_count_records = count;
                 } else {
                     throw new Error("Error in db.count");
                 }
@@ -45,60 +163,4 @@ module.exports = function rest_api(options) {
             return db_promise;
         });
 
-    map_route(
-        "/rest/links",
-        "post", {
-            table: 'links'
-        },
-        function post_links(params) {
-            console.log(params);
-
-            //var db_promise = Q.ninvoke(db, "all", "SELECT * FROM tEvent ORDER BY id LIMIT $total_events OFFSET $event_offset;", {
-            //});
-
-            var response = {};
-
-console.log(response);
-/*
- *            return db_promise.then(function(rows) {
- *                if (!rows || rows.length == 0) return;
- *
- *                response = rows;
- *
- *                return Q.all(
- *                    rows.map(function get_transactions(row) {
- *                        return Q.ninvoke(db, "all", "SELECT * from tTransaction WHERE event = $event", {
- *                                $event: row.id
- *                            })
- *                            .then(function(t_rows) {
- *                                row.transactions = sanitize_transactions(t_rows);
- *                            });
- *                    })
- *                );
- *            }).then(function() {
- *                return response;
- *            });
- */
-        });
-
-    map_route(
-        "/rest/people",
-        "get", {},
-        function get_people(req, res) {
-            //TODO: Offsets?
-
-            var db_promise = Q.ninvoke(db, "all", "SELECT * FROM tPerson ORDER BY id;");
-
-            var response = {};
-
-            return db_promise.then(function(rows) {
-                if (!rows || rows.length == 0) return;
-
-                for (var i = 0; i < rows.length; i++) {
-                    response[rows[i]["id"]] = rows[i]["name"];
-                }
-
-                return response;
-            });
-        });
 };
