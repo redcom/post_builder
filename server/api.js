@@ -43,9 +43,7 @@ module.exports = function rest_api(options) {
             created: Date.now()
         },
         function post_posts(params) {
-
-
-
+        console.log(params);
             var db_promise = Q.ninvoke(db, "insert", params);
             var response = {};
             return db_promise.then(function(rows) {
@@ -134,6 +132,45 @@ module.exports = function rest_api(options) {
             table: 'links'
         },
         function get_links(params) {
+            var db_promise = Q.ninvoke(db, "find", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+
+    map_route(
+        "/rest/sites",
+        "post", {
+            table: 'sites',
+            created: Date.now()
+        },
+        function post_sites(params) {
+            console.log(params);
+            var db_promise = Q.ninvoke(db, "insert", params);
+            var response = {};
+            return db_promise.then(function(rows) {
+                    if (!rows || rows.length == 0) return;
+                    response = rows;
+                })
+                .then(function() {
+                    return response;
+                })
+        });
+
+    map_route(
+        "/rest/sites",
+        "get", {
+            table: 'sites'
+        },
+        function get_sites(params) {
+            console.log(params);
+            console.log("0000000000000000000000");
+
             var db_promise = Q.ninvoke(db, "find", params);
             var response = {};
             return db_promise.then(function(rows) {
