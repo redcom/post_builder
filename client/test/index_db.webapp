@@ -1,6 +1,0 @@
-{
-  "name": "IndexedDB Test",
-  "description": "IndexedDB Test",
-  "launch_path": "/test/index_db.html",
-  "default_locale": "en"
-}
