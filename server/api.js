@@ -104,7 +104,7 @@ module.exports = function rest_api(options) {
                     response = rows;
                 })
                 .then(function() {
-                    return response;
+                    return _.isEmpty(response)? [] : response;
                 })
         });
 

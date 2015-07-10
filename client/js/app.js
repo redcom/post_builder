@@ -1,5 +1,6 @@
 API_URL = window.location.href.replace(/#.*/, '') + 'rest/';
 var addEvents;
+var temporaryData;
 
 var APP = {
     exploreLinks: function(elem) {
@@ -14,7 +15,13 @@ var APP = {
     showAlertInfo: function(elem) {
         showAlertInfo(elem);
     },
+    showPostsContent: function(elem) {
+       var id = elem.target.dataset.id;
+        showPostsContent(temporaryData[id].posts);
+    },
     showTemplateTable: function(data) {
+        if (data.length < 1) return;
+        temporaryData = data;
         showPageHeader(data[0].table);
         showPageTable(data);
         addEvents();
@@ -58,6 +65,8 @@ var showPageTableBody = function(arr) {
         objKeys.map(function(key) {
             if (key === 'javascript') {
                 td += '<td data-action="showAlertInfo" data-info="' + row[key] + '"> View</td>';
+            } else if (key === 'posts') {
+                td += '<td data-action="showPostsContent" data-id="' + idx + '" >' + Object.keys(row[key]).length + ' posts</td>';
             } else {
                 td += '<td>' + row[key] + '</td>';
             }
@@ -76,4 +85,7 @@ var showAlertInfo = function(elem) {
         target.innerText = elem.target.dataset.info;
 
     }
+};
+showPostsContent = function(data) {
+        console.table(data);
 };
