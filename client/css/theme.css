@@ -16,3 +16,7 @@ body {
 .theme-showcase .navbar .container {
   width: auto;
 }
+
+.table thead th, .page-header h1 {
+    text-transform: capitalize;
+}
