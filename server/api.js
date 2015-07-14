@@ -3,201 +3,134 @@ var Q = require("q"),
     _ = require('underscore'),
     restify = require("restify");
 
-module.exports = function rest_api(options) {
+module.exports = function(options) {
     "use strict";
 
     var db = options.db;
     var server = options.server;
 
-    function map_route(endpoint, http_method, parameters, callback_fun) {
-        var wrapped_callback = function wrapped_callback(req, res, next) {
-            Q.try(function() {
-                var params;
-                if (_.isArray(req.params)) {
-                    params = [];
-                    _.each(req.params, function(elem) {
-                        params.push(_.extend(elem, parameters));
-                    });
-                } else {
-                    params = _.extend(parameters, req.params);
-                }
-                return callback_fun(params);
-            }).catch(function global_error(error) {
-                return next(error);
-            }).done(function global_done(value) {
-                res.send(value);
-                return next();
-            });
+
+    function mapRoute(endpoint, http_method, parameters, callbackFun) {
+        var wrappedCallback = function wrappedCallback(req, res, next) {
+            var params;
+console.log(Array.isArray(req.params[parameters.table]));
+            if (Array.isArray(req.params[parameters.table])) {
+                params = req.params[parameters.table];
+                params.forEach(function(val, idx, ctx) {
+                    if (typeof(val) === "object") {
+                        ctx[idx] = _.extend(val, parameters);
+                    } else {
+                        ctx[val] = _.extend(idx, parameters);
+                    }
+                });
+            } else {
+                console.log(Array.isArray(params));
+                params = _.extend(req.params, parameters );
+            }
+
+            return callbackFun(params, res, next);
         };
 
-        server[http_method](endpoint, wrapped_callback);
+        server[http_method](endpoint, wrappedCallback);
     }
 
-    // POST CONTENT
-
-
-    map_route(
+// POSTS
+    mapRoute(
         "/rest/posts",
         "post", {
             table: 'posts',
             created: Date.now()
         },
-        function post_posts(params) {
-        console.log(params);
-            var db_promise = Q.ninvoke(db, "insert", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return response;
-                })
+        function postPosts(params, res, next) {
+
+            db.insert(params, function(err, count) {
+                if (!err) {
+                    res.send(params);
+                } else {
+                    console.log('Error Insert', err);
+                    return next(err);
+                }
+            });
         });
 
-    map_route(
+    mapRoute(
         "/rest/posts",
         "get", {
             table: 'posts'
         },
-        function get_posts(params) {
-            var db_promise = Q.ninvoke(db, "find", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return response;
-                })
-        });
-    // POST categories
-
-    map_route(
-        "/rest/categories",
-        "post", {
-            table: 'categories',
-            created: Date.now()
-        },
-        function post_categories(params) {
-            var db_promise = Q.ninvoke(db, "insert", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return response;
-                })
+        function getPosts(params, res, next) {
+            var map = function(doc) {
+                if (doc.table === params.table) {
+                    return doc;
+                }
+            };
+            var cb = function(err, selected) {
+                if (!err) {
+                    res.send(selected);
+                } else {
+                    return next(err);
+                }
+            };
+            db.all(map, cb);
         });
 
-    map_route(
-        "/rest/categories",
-        "get", {
-            table: 'categories'
-        },
-        function get_categories(params) {
-            var db_promise = Q.ninvoke(db, "find", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return _.isEmpty(response)? [] : response;
-                })
-        });
-
-    map_route(
-        "/rest/links",
-        "post", {
-            table: 'links',
-            created: Date.now()
-        },
-        function post_links(params) {
-            var db_promise = Q.ninvoke(db, "insert", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return response;
-                })
-        });
-
-    map_route(
-        "/rest/links",
-        "get", {
-            table: 'links'
-        },
-        function get_links(params) {
-            var db_promise = Q.ninvoke(db, "find", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return response;
-                })
-        });
-
-    map_route(
+    mapRoute(
         "/rest/sites",
         "post", {
             table: 'sites',
             created: Date.now()
         },
-        function post_sites(params) {
-            console.log(params);
-            var db_promise = Q.ninvoke(db, "insert", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return response;
-                })
+        function postSites(params, res, next) {
+            db.insert(params, function(err, count) {
+                if (!err) {
+                    console.log(count);
+                    res.send(params);
+                } else {
+                    console.log('Error Insert', err);
+                    return next(err);
+                }
+            });
         });
 
-    map_route(
+    mapRoute(
         "/rest/sites",
         "get", {
             table: 'sites'
         },
-        function get_sites(params) {
-            console.log(params);
-            console.log("0000000000000000000000");
-
-            var db_promise = Q.ninvoke(db, "find", params);
-            var response = {};
-            return db_promise.then(function(rows) {
-                    if (!rows || rows.length == 0) return;
-                    response = rows;
-                })
-                .then(function() {
-                    return response;
-                })
+        function getSites(params, res, next) {
+            var map = function(doc) {
+                if (doc.table === params.table) {
+                    return doc;
+                }
+            };
+            var cb = function(err, selected) {
+                if (!err) {
+                    res.send(selected);
+                } else {
+                    return next(err);
+                }
+            };
+            db.all(map, cb);
         });
 
-    map_route(
+
+    mapRoute(
         "/rest/db_check",
         "get", {},
-        function db_check(params) {
+        function dbCheck(params, res, next) {
             var response = {
                 "check": "db"
             };
-            var db_promise = Q.ninvoke(db, "count", {}).then(function(count) {
-                if (count >= 0) {
-                    response.db_count_records = count;
+            db.count(function(doc) {
+                return doc;
+            }, function(err, count) {
+                if (!err) {
+                    response.count = count;
+                    res.send(response);
                 } else {
-                    throw new Error("Error in db.count");
+                    return next(err);
                 }
-                return response;
             });
-            return db_promise;
         });
 
 };
