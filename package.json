@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "nedb": "^1.1.2",
+    "nosql": "^3.0.2",
     "q": "latest",
     "restify": "latest",
     "underscore": "^1.8.3"

@@ -2,19 +2,14 @@
 
 var restify = require("restify"),
     fs = require("fs"),
-    // Type 3: Persistent datastore with automatic loading
-    Datastore = require('nedb'),
+    nosql = require('nosql'),
+    dbFile = __dirname + '/../database/nosql/db.nosql',
+    dbBinary = __dirname + '/../database/nosql/binary',
     db;
-
-var db_file = "./database/database.db"
 var webroot = "client",
     port = 8000;
 
-
-db = new Datastore({
-    filename: db_file,
-    autoload: true
-});
+var db = nosql.load(dbFile, dbBinary);
 
 
 function start_server() {
