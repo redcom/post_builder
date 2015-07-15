@@ -3,6 +3,7 @@ var Q = require("q"),
     _ = require('underscore'),
     restify = require("restify");
 
+
 module.exports = function(options) {
     "use strict";
 
@@ -12,29 +13,28 @@ module.exports = function(options) {
 
     function mapRoute(endpoint, http_method, parameters, callbackFun) {
         var wrappedCallback = function wrappedCallback(req, res, next) {
-            var params;
-console.log(Array.isArray(req.params[parameters.table]));
-            if (Array.isArray(req.params[parameters.table])) {
-                params = req.params[parameters.table];
-                params.forEach(function(val, idx, ctx) {
-                    if (typeof(val) === "object") {
-                        ctx[idx] = _.extend(val, parameters);
-                    } else {
-                        ctx[val] = _.extend(idx, parameters);
-                    }
-                });
-            } else {
-                console.log(Array.isArray(params));
-                params = _.extend(req.params, parameters );
-            }
+                var params;
+                if (req.params[parameters.table] && Array.isArray(req.params[parameters.table]) ||
+                    (typeof req.params[parameters.table] === "string" && Array.isArray(JSON.parse(req.params[parameters.table])))) {
 
-            return callbackFun(params, res, next);
+                    params = req.params[parameters.table];
+                    if (!Array.isArray(params)) {
+                    params = JSON.parse(params);
+                    }
+                    params.forEach(function(val, idx, ctx) {
+                        ctx[idx] = _.extend(val, parameters);
+                    });
+                } else {
+                    params = _.extend(req.params, parameters);
+                }
+
+                return callbackFun(params, res, next);
         };
 
         server[http_method](endpoint, wrappedCallback);
     }
 
-// POSTS
+    // POSTS
     mapRoute(
         "/rest/posts",
         "post", {
@@ -83,7 +83,6 @@ console.log(Array.isArray(req.params[parameters.table]));
         function postSites(params, res, next) {
             db.insert(params, function(err, count) {
                 if (!err) {
-                    console.log(count);
                     res.send(params);
                 } else {
                     console.log('Error Insert', err);
