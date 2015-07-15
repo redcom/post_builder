@@ -15,9 +15,10 @@ var APP = {
     showAlertInfo: function(elem) {
         showAlertInfo(elem);
     },
-    showPostsContent: function(elem) {
-       var id = elem.target.dataset.id;
-        showPostsContent(temporaryData[id].posts);
+    showPostsContent: function(evt) {
+        evt.stopPropagation();
+        var id = evt.currentTarget.dataset.id;
+        showPostsContent(temporaryData[id]);
     },
     showTemplateTable: function(data) {
         if (data.length < 1) return;
@@ -56,23 +57,24 @@ var showPageTableHead = function(headers) {
 };
 
 var showPageTableBody = function(arr) {
-    var tr = td = "",
+    var tr = td = isPost = '',
         objKeys = Object.keys(arr[0]);
 
     arr.map(function(row, idx) {
-        td = '';
+        td = isPost = '';
 
         objKeys.map(function(key) {
             if (key === 'javascript') {
                 td += '<td data-action="showAlertInfo" data-info="' + row[key] + '"> View</td>';
-            } else if (key === 'posts') {
-                td += '<td data-action="showPostsContent" data-id="' + idx + '" >' + Object.keys(row[key]).length + ' posts</td>';
+            } else if (key === 'table' && row[key] === 'posts') {
+                isPost = ' data-action="showPostsContent" data-id="' + idx + '" title="Show post #' + idx + '" ';
+                td += '<td>Post #' + idx + '</td>';
             } else {
-                td += '<td>' + row[key] + '</td>';
+                td += '<td>' + (row[key]).toString().substr(0, 100) + '</td>';
             }
         });
 
-        tr += '<tr>' + td + '</tr>';
+        tr += '<tr ' + isPost + '>' + td + '</tr>';
 
     });
     document.querySelector('#templatePageTable tbody').innerHTML = tr;
@@ -86,6 +88,29 @@ var showAlertInfo = function(elem) {
 
     }
 };
-showPostsContent = function(data) {
-        console.table(data);
+var showPostsContent = function(data) {
+    document.querySelector('#templatePageTable').parentNode.className += " hidden";
+    var page_show = document.querySelector('#templatePageShow');
+    page_show.className = page_show.className.replace(/\shidden/, '');
+
+    var objKeys = Object.keys(data);
+
+    page_show.querySelectorAll('h1')[0].innerHTML = data.header;
+    page_show.querySelectorAll('article')[0].innerHTML = data.content;
+
+    objKeys = objKeys.filter(function(key) {
+        return ['header', 'content', 'created', 'link', 'table'].indexOf(key) < 0;
+    });
+
+    var boxes = "";
+    if (objKeys.length > 0) {
+        objKeys.map(function(key, idx) {
+            boxes += "<div>" + data[key] + "</div>";
+        });
+
+        boxes = document.createRange().createContextualFragment(boxes);
+
+        page_show.querySelectorAll('article')[0].parentNode.appendChild(boxes);
+    }
+
 };
