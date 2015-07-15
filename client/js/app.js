@@ -3,7 +3,7 @@ var addEvents;
 var temporaryData;
 
 var APP = {
-    exploreLinks: function(elem) {
+    exploreSites: function(elem) {
         LIB.ajax('GET', API_URL + 'sites').then(APP.showTemplateTable, APP.snowError);
     },
     explorePosts: function(elem) {
