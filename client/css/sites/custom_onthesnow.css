@@ -1,3 +1,4 @@
+
 /*Elevation*/
 #resort_elevation,
 #resort_lifts,
@@ -6,6 +7,15 @@
 #resort_contact {
     margin-top: 8px;
 }
+
+#resort_elevation ul,
+#resort_liftsi ul,
+#resort_terrain ul,
+#resort_impdates ul,
+#resort_contact ul {
+    list-style:none;
+}
+
 div.clear {
     font-size: 1px;
     line-height: 1px;
