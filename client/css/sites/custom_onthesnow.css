@@ -171,6 +171,8 @@ div.clear {
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 145px;
+    color: #333;
+    font-weight: bold;
 }
 #resort_terrain li p.value {
     font-size: 18px;
@@ -228,3 +230,5 @@ div.clear {
 #resort_contact li a {
     font-weight: bold;
 }
+
+
