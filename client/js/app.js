@@ -22,11 +22,22 @@ var APP = {
     showPostsContent: function(evt) {
         evt.stopPropagation();
         var id = evt.currentTarget.dataset.id;
+        Array.prototype.map.call(evt.currentTarget.parentNode.childNodes, function(val, idx) {
+            if (val.className === " visited") {
+                val.className = val.className.replace(/(\svisited)+/, '');
+            }
+        });
+        evt.currentTarget.className += " visited";
         showPostsContent(temporaryData[id]);
     },
     showTemplateTable: function(data) {
         if (data.length < 1) return;
-        setTableVisible();
+
+        if (document.querySelectorAll('#templatePageTable table tbody tr').length > 1) {
+            setTableVisible();
+            return;
+        }
+        console.log(12);
         temporaryData = data;
         showPageHeader(data[0].table);
         showPageTable(data);
