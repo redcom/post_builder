@@ -7,7 +7,11 @@ var APP = {
         LIB.ajax('GET', API_URL + 'sites').then(APP.showTemplateTable, APP.snowError);
     },
     explorePosts: function(elem) {
-        LIB.ajax('GET', API_URL + 'posts').then(APP.showTemplateTable, APP.snowError);
+        if (Array.isArray(temporaryData) && temporaryData[0].table === "posts") {
+            APP.showTemplateTable(temporaryData);
+        } else {
+            LIB.ajax('GET', API_URL + 'posts').then(APP.showTemplateTable, APP.snowError);
+        }
     },
     exploreCategories: function(elem) {
         LIB.ajax('GET', API_URL + 'categories').then(APP.showTemplateTable, APP.snowError);
@@ -22,6 +26,7 @@ var APP = {
     },
     showTemplateTable: function(data) {
         if (data.length < 1) return;
+        setTableVisible();
         temporaryData = data;
         showPageHeader(data[0].table);
         showPageTable(data);
@@ -88,10 +93,16 @@ var showAlertInfo = function(elem) {
 
     }
 };
+var setTableVisible = function() {
+    var table = document.querySelector('#templatePageTable').parentNode;
+    document.querySelector('#templatePageShow').className += ' hidden';
+    table.className = table.className.replace(/(\shidden)+/, '');
+}
+
 var showPostsContent = function(data) {
     document.querySelector('#templatePageTable').parentNode.className += " hidden";
     var page_show = document.querySelector('#templatePageShow');
-    page_show.className = page_show.className.replace(/\shidden/, '');
+    page_show.className = page_show.className.replace(/(\shidden)+/, '');
 
     var objKeys = Object.keys(data);
 

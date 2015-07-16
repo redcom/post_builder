@@ -1,7 +1,6 @@
 var LIB = {
     ajax: function ajax(method, url, async) {
         var timeout;
-    console.log('url', url);
         return promise = new Promise(function(resolve, reject) {
             var xhr = new XMLHttpRequest();
             xhr.open(method, url, async || true);
