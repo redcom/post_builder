@@ -20,3 +20,7 @@ body {
 .table thead th, .page-header h1 {
     text-transform: capitalize;
 }
+
+.table tbody tr.visited {
+    background-color: silver;
+}
