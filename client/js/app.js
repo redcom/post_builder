@@ -1,5 +1,4 @@
 API_URL = window.location.href.replace(/#.*/, '') + 'rest/';
-var addEvents;
 var temporaryData;
 
 var APP = {
@@ -22,11 +21,7 @@ var APP = {
     showPostsContent: function(evt) {
         evt.stopPropagation();
         var id = evt.currentTarget.dataset.id;
-        Array.prototype.map.call(evt.currentTarget.parentNode.childNodes, function(val, idx) {
-            if (val.className === " visited") {
-                val.className = val.className.replace(/(\svisited)+/, '');
-            }
-        });
+        removeVisitedPostsCass(evt.currentTarget.parentNode.childNodes);
         evt.currentTarget.className += " visited";
         showPostsContent(temporaryData[id]);
     },
@@ -37,7 +32,6 @@ var APP = {
             setTableVisible();
             return;
         }
-        console.log(12);
         temporaryData = data;
         showPageHeader(data[0].table);
         showPageTable(data);
@@ -47,14 +41,8 @@ var APP = {
         throw new Error(err);
     }
 };
-(addEvents = function addEvents() {
-    var actions = document.querySelectorAll('[data-action]');
-
-    Array.prototype.map.call(actions, function(elem, idx) {
-        var action = elem.dataset.action;
-        elem.addEventListener('click', APP[action], false);
-    });
-})();
+// bind events to data-actions DOM atttributes
+addEvents();
 
 var showPageHeader = function(str) {
     document.querySelector('#templatePageHead > h1').innerText = str;
@@ -96,25 +84,9 @@ var showPageTableBody = function(arr) {
     document.querySelector('#templatePageTable tbody').innerHTML = tr;
 };
 
-var showAlertInfo = function(elem) {
-    if (elem.target.dataset.info) {
-        var target = document.querySelectorAll('.alert-info pre')[0];
-        target.parentNode.className += 'fade in';
-        target.innerText = elem.target.dataset.info;
-
-    }
-};
-var setTableVisible = function() {
-    var table = document.querySelector('#templatePageTable').parentNode;
-    document.querySelector('#templatePageShow').className += ' hidden';
-    table.className = table.className.replace(/(\shidden)+/, '');
-}
-
 var showPostsContent = function(data) {
-    document.querySelector('#templatePageTable').parentNode.className += " hidden";
+    setPostVisible();
     var page_show = document.querySelector('#templatePageShow');
-    page_show.className = page_show.className.replace(/(\shidden)+/, '');
-
     var objKeys = Object.keys(data);
 
     page_show.querySelectorAll('h1')[0].innerHTML = data.header;
@@ -127,7 +99,14 @@ var showPostsContent = function(data) {
     var boxes = "";
     if (objKeys.length > 0) {
         objKeys.map(function(key, idx) {
-            boxes += "<div>" + data[key] + "</div>";
+            switch (key) {
+                case 'map_url':
+                    boxes += "<div id='map_url'><img src='" + data[key] + "' alt='" + data.header + " on the ski map' title='"+data.header+" resort map position' /></div>";
+                    break;
+                default:
+                    boxes += "<div>" + data[key] + "</div>";
+                    break;
+            }
         });
 
         boxes = document.createRange().createContextualFragment(boxes);
