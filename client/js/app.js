@@ -1,6 +1,8 @@
 API_URL = window.location.href.replace(/#.*/, '') + 'rest/';
 var temporaryData;
 
+initNavigation();
+
 var APP = {
     exploreSites: function(elem) {
         LIB.ajax('GET', API_URL + 'sites').then(APP.showTemplateTable, APP.snowError);

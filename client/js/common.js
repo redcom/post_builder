@@ -1,3 +1,11 @@
+var initNavigation = function initNavigation() {
+    window.addEventListener("popstate", function(e) {
+        console.log(e);
+    }, false);
+
+    
+};
+
 var setTableVisible = function() {
     var table = document.querySelector('#templatePageTable').parentNode;
     document.querySelector('#templatePageShow').className += ' hidden';
@@ -34,4 +42,3 @@ var showAlertInfo = function(elem) {
         target.innerText = elem.target.dataset.info;
     }
 };
-
