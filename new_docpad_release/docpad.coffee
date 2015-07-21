@@ -16,7 +16,7 @@ docpadConfig = {
 
     collections:
         pages: ->
-            @getCollection("html").findAllLive({isPage:true}, [{filename: 1}]).on "add", (model) -> 
+            @getCollection("html").findAllLive({isPage:true}, [{filename: 1}]).on "add", (model) ->
                 model.setMetaDefaults({layout: "default"})
 }
 
