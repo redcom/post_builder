@@ -4,22 +4,17 @@
     <title>
         Contact | My site
     </title>
-    <meta name="description" content="My site description" />
-    <meta name="keywords" content="My sie keywords" />
+    <meta name="description" content="This is description" />
+    <meta name="keywords" content="bevry, bevryme, balupton, benjamin lupton, docpad, node, node.js, javascript, coffeescript, query engine, queryengine, backbone.js, cson" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="">
 
-    <style >html.wait {
-	cursor: wait !important;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-}</style><link  rel="stylesheet" href="/vendor/css/bootstrap.min.css" /><link  rel="stylesheet" href="/vendor/css/bootstrap-theme.min.css" /><link  rel="stylesheet" href="/css/theme.css" /><link  rel="stylesheet" href="/css/custom_onthesnow.css" />
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--[if gt IE 9]>
-    <script src="js/ie10-viewport-bug-workaround.js"></script>
+    <script src="/vendor/js/ie10-viewport-bug-workaround.js"></script>
     <![endif]-->
 
     <!--[if lt IE 9]>
@@ -27,6 +22,16 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <!-- Icons -->
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="/vendor/css/bootstrap.min.css?websiteVersion=${websiteVersion}" /><link  rel="stylesheet" href="/vendor/css/bootstrap-theme.min.css?websiteVersion=${websiteVersion}" /><link  rel="stylesheet" href="/css/theme.css?websiteVersion=${websiteVersion}" /><link  rel="stylesheet" href="/css/custom_onthesnow.css?websiteVersion=${websiteVersion}" />
+
+    
 </head>
 
 <body role="document">
@@ -143,7 +148,7 @@ var inject = function(){
 	} else {
 		inject();
 	}
-})();</script><script defer="defer"  src="/js/bootstrap-without-jquery.js"></script><script defer="defer"  src="/js/lib.js"></script><script defer="defer"  src="/js/common.js"></script><script defer="defer"  src="/js/app.js"></script>
+})();</script><script defer="defer"  src="/vendor/js/bootstrap-without-jquery.js?websiteVersion=0.1.0"></script><script defer="defer"  src="/js/lib.js?websiteVersion=0.1.0"></script><script defer="defer"  src="/js/common.js?websiteVersion=0.1.0"></script><script defer="defer"  src="/js/app.js?websiteVersion=0.1.0"></script>
 </body>
 
 </html>
