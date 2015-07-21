@@ -113,6 +113,104 @@ docpadConfig = {
         pages: ->
             @getCollection("html").findAllLive({isPage:true}, [{filename: 1}]).on "add", (model) ->
                 model.setMetaDefaults({layout: "default"})
+
+        docs: (database) ->
+            query =
+                write: true
+                relativeOutDirPath: $startsWith: 'learn/'
+                body: $ne: ""
+            sorting = [projectDirectory:1, categoryDirectory:1, filename:1]
+            database.findAllLive(query, sorting).on 'add', (document) ->
+                # Prepare
+                a = document.attributes
+
+                ###
+                learn/#{organisation}/#{project}/#{category}/#{filename}
+                ###
+                pathDetailsExtractor = ///
+                    ^
+                    .*?learn/
+                    (.+?)/        # organisation
+                    (.+?)/        # project
+                    (.+?)/        # category
+                    (.+?)\.       # basename
+                    (.+?)         # extension
+                    $
+                ///
+
+                pathDetails = pathDetailsExtractor.exec(a.relativePath)
+
+                # Properties
+                layout = 'doc'
+                standalone = true
+                organisationDirectory = organisation = organisationName =
+                    projectDirectory = project = projectName =
+                    categoryDirectory = category = categoryName =
+                    title = pageTitle = null
+
+                # Check if we are correctly structured
+                if pathDetails?
+                    organisationDirectory = pathDetails[1]
+                    projectDirectory = pathDetails[2]
+                    categoryDirectory = pathDetails[3]
+                    basename = pathDetails[4]
+
+                    organisation = organisationDirectory.replace(/[\-0-9]+/, '')
+                    organisationName = humanize(project)
+
+                    project = projectDirectory.replace(/[\-0-9]+/, '')
+                    projectName = getProjectName(project)
+
+                    category = categoryDirectory.replace(/^[\-0-9]+/, '')
+                    categoryName = getCategoryName(category)
+
+                    name = basename.replace(/^[\-0-9]+/,'')
+
+                    title = "#{a.title or humanize name}"
+                    pageTitle = "#{title} | DocPad"  # changed from bevry website
+
+                    urls = ["/docs/#{name}", "/docs/#{category}-#{name}", "/docpad/#{name}"]
+
+                    githubEditUrl = "https://github.com/#{organisationDirectory}/#{projectDirectory}/edit/master/"
+                    proseEditUrl = "http://prose.io/##{organisationDirectory}/#{projectDirectory}/edit/master/"
+                    editUrl = githubEditUrl + a.relativePath.replace("learn/#{organisationDirectory}/#{projectDirectory}/", '')
+
+                    # Apply
+                    document
+                        .setMetaDefaults({
+                            layout
+                            standalone
+
+                            name
+                            title
+                            pageTitle
+
+                            url: urls[0]
+
+                            editUrl
+
+                            organisationDirectory
+                            organisation
+                            organisationName
+
+                            projectDirectory
+                            project
+                            projectName
+
+                            categoryDirectory
+                            category
+                            categoryName
+                        })
+                        .addUrl(urls)
+
+                # Otherwise ignore this document
+                else
+                    console.log "The document #{a.relativePath} was at an invalid path, so has been ignored"
+                    document.setMetaDefaults({
+                        ignore: true
+                        render: false
+                        write: false
+                    })
 }
 
 # Export the DocPad Configuration
