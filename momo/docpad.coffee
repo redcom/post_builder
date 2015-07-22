@@ -84,9 +84,6 @@ docpadConfig = {
             ].map (url) -> "#{url}?websiteVersion=#{websiteVersion}"
 
         getName: getName
-        getCategoryName: getCategoryName
-        getLinkName: getLinkName
-        getLabelName: getLabelName
 
         # Get the prepared site/document title
         # Often we would like to specify particular formatting to our page's title
@@ -123,22 +120,6 @@ docpadConfig = {
             database.findAllLive(query, sorting).on 'add', (document) ->
                 # Prepare
                 a = document.attributes
-
-                ###
-                learn/#{organisation}/#{project}/#{category}/#{filename}
-                ###
-                pathDetailsExtractor = ///
-                    ^
-                    .*?learn/
-                    (.+?)/        # organisation
-                    (.+?)/        # project
-                    (.+?)/        # category
-                    (.+?)\.       # basename
-                    (.+?)         # extension
-                    $
-                ///
-
-                pathDetails = pathDetailsExtractor.exec(a.relativePath)
 
                 # Properties
                 layout = 'doc'
