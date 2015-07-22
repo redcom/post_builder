@@ -1,0 +1,23 @@
+{
+    heading: "DocPad"
+    copyright: '''
+            This is the copyright information 
+        '''
+
+    linkNames:
+        main: "Website"
+        learn: "Learn"
+        email: "Email"
+        twitter: "Twitter"
+
+        support: "Support"
+        showcase: "Showcase"
+
+    categoryNames:
+        start: "Getting Started"
+        community: "Community"
+        core: "Core"
+        extend: "Extend"
+        handsonnode: "Hands on with Node"
+}
+
