@@ -1,8 +1,0 @@
-
-###
-layout: structure
-###
-
-eection '#content', ->
-    article '.splash', ->
-        text @content
