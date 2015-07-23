@@ -61,6 +61,7 @@ module.exports = function(options) {
         function getPosts(params, res, next) {
             var map = function(doc) {
                 if (doc.table === params.table) {
+                    doc.url = '/'+doc.header;
                     return doc;
                 }
             };

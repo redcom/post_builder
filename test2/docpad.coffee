@@ -1,3 +1,43 @@
+fsUtil = require('fs')
+pathUtil = require('path')
+moment = require('moment')
+strUtil = require('underscore.string')
+nosql = require('nosql')
+dbFile = __dirname + '/../database/nosql/db.nosql'
+dbBinary = __dirname + '/../database/nosql/binary'
+db = nosql.load(dbFile, dbBinary)
+POSTS = []
+SOURCES = []
+
+siteUrl = if process.env.NODE_ENV is 'production' then "http://domain.org" else "http://localhost:9778"
+
+getSources = () ->
+    console.log('info', ':::::FOUD # SOURCES:::::::::', SOURCES.length)
+    return SOURCES if SOURCES && SOURCES.length>0
+    map = (doc) ->
+        return doc if doc.table == 'sites'
+    cb = (err, selected) ->
+        SOURCES = selected
+        return selected if !err
+    db.all(map, cb)
+
+getPosts = () ->
+    console.log('info', ':::::FOUD # POSTS:::::::::', POSTS.length)
+    return POSTS if POSTS && POSTS.length>0
+    map = (doc) ->
+        return doc if doc.table == 'posts'
+    cb = (err, selected) ->
+        POSTS = selected
+        return selected if !err
+    db.all(map, cb)
+
+getSources()
+getPosts()
+# Humanize
+humanize = (text) ->
+    text ?= ''
+    return strUtil.humanize text.replace(/^[\-0-9]+/,'').replace(/\..+/,'')
+
 # The DocPad Configuration File
 # It is simply a CoffeeScript Object which is parsed by CSON
 docpadConfig =
@@ -13,13 +53,10 @@ docpadConfig =
         site:
             # The production url of our website
             # If not set, will default to the calculated site URL (e.g. http://localhost:9778)
-            url: "http://website.com"
+            url: siteUrl
 
-            # Here are some old site urls that you would like to redirect from
-            oldUrls: [
-                'www.website.com',
-                'website.herokuapp.com'
-            ]
+            strUtil: strUtil
+            moment: moment
 
             # The default title of our website
             title: "Your Website"
@@ -63,11 +100,11 @@ docpadConfig =
         # Often we would like to specify particular formatting to our page's title
         # we can apply that formatting here
         getPreparedTitle: ->
-            # if we have a document title, then we should use that and suffix the site's title onto it
-            if @document.title
-                "#{@document.title} | #{@site.title}"
-            # if our document does not have it's own title, then we should just use the site's title
-            else
+            # if we have a title, we should use it suffixed by the site's title
+            if @document.pageTitle isnt false and @document.title
+                "#{@document.pageTitle or @document.title} | #{@site.title}"
+            # if we don't have a title, then we should just use the site's title
+            else if @document.pageTitle is false or @document.title? is false
                 @site.title
 
         # Get the prepared site/document description
@@ -80,6 +117,9 @@ docpadConfig =
             # Merge the document keywords with the site keywords
             @site.keywords.concat(@document.keywords or []).join(', ')
 
+        getSources: getSources
+        getPosts: getPosts
+
 
     # =================================
     # Collections
@@ -90,6 +130,7 @@ docpadConfig =
     # A live collection is a collection that constantly stays up to date
     # You can learn more about live collections and querying via
     # http://bevry.me/queryengine/guide
+
 
     collections:
 
@@ -111,11 +152,23 @@ docpadConfig =
     # This allows DocPad's to use it's own calculated site URL instead, due to the falsey value
     # This allows <%- @site.url %> in our template data to work correctly, regardless what environment we are in
 
+
+
     environments:
         development:
             templateData:
                 site:
                     url: false
+
+
+    # =================================
+    # Plugins
+    plugins:
+        feedr:
+            feeds:
+                posts:
+                    url: "http://localhost:8000/rest/posts"
+                    parse: 'json'
 
 
     # =================================

@@ -32,10 +32,15 @@
   },
   "dependencies": {
     "docpad": "latest",
-    "docpad-plugin-eco": "latest",
-    "docpad-plugin-marked": "latest",
     "docpad-plugin-copy": "latest",
-    "docpad-plugin-partials": "latest"
+    "docpad-plugin-eco": "latest",
+    "docpad-plugin-feedr": "~2.11.0",
+    "docpad-plugin-marked": "latest",
+    "docpad-plugin-mongodb": "~2.3.2",
+    "docpad-plugin-partials": "latest",
+    "moment": "^2.10.3",
+    "nosql": "^3.0.2",
+    "underscore.string": "^3.1.1"
   },
   "devDependencies": {
     "docpad-plugin-livereload": "~2.6.1"
