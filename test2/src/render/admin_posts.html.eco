@@ -1,0 +1,71 @@
+---
+title: 'Posts'
+isPage: true
+---
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>link</th>
+            <th>content</th>
+            <th>header</th>
+            <th>table</th>
+            <th>created</th>
+            <th> map_url </th>
+            <th> resort_contact </th>
+            <th> resort_elevation </th>
+            <th> resort_terrain </th>
+            <th> resort_lifts </th>
+            <th> resort_trail </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <% for source in @getPosts(): %>
+            <tr>
+                <td>
+                    <%- source.link %>
+                </td>
+                <td>
+                    <%- source.content.split(' ').length %> Words
+                </td>
+                <td>
+                    <%- source.header %>
+                </td>
+                <td>
+                    <%- source.table %>
+                </td>
+                <td>
+                    <%- @site.moment(source.created).format('YYYY-MM-DD') %>
+                </td>
+                <td>
+                    <%= 'Y' if source.map_url %>
+                </td>
+                <td>
+                    <%= 'Y' if source.resort_contact %>
+                </td>
+                <td>
+                    <%= 'Y' if  source.resort_elevation %>
+                </td>
+                <td>
+                    <%= 'Y' if  source.resort_terrain %>
+                </td>
+                <td>
+                    <%= 'Y' if source.resort_lifts %>
+                </td>
+                <td>
+                    <%= 'Y' if source.resort_trail %>
+                </td>
+            </tr>
+            <% end %>
+
+    </tbody>
+
+</table>
+
+<div class="alert alert-info hidden" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+    </button>
+    <pre></pre>
+</div>
