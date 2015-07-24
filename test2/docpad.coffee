@@ -3,8 +3,8 @@ pathUtil = require('path')
 moment = require('moment')
 strUtil = require('underscore.string')
 nosql = require('nosql')
-dbFile = __dirname + '/../database/nosql/db.nosql'
-dbBinary = __dirname + '/../database/nosql/binary'
+dbFile = __dirname + '/database/nosql/db.nosql'
+dbBinary = __dirname + '/database/nosql/binary'
 db = nosql.load(dbFile, dbBinary)
 POSTS = []
 SOURCES = []
@@ -136,8 +136,8 @@ docpadConfig =
 
         # Create a collection called posts
         # That contains all the documents that will be going to the out path posts
-        posts: ->
-            @getCollection('documents').findAllLive({relativeOutDirPath: 'posts'})
+        #posts: ->
+         #   @getCollection('documents').findAllLive({relativeOutDirPath: 'posts'})
         pages: ->
             @getCollection("html").findAllLive({isPage:true}, [{filename: 1}]).on "add", (model) ->
                 model.setMetaDefaults({layout: "default"})
@@ -164,12 +164,22 @@ docpadConfig =
     # =================================
     # Plugins
     plugins:
-        feedr:
-            feeds:
-                posts:
-                    url: "http://localhost:8000/rest/posts"
-                    parse: 'json'
+        nosql:
+            collections: [
+              nosqlFile: dbFile,
+              nosqlBinary: dbBinary,
 
+              query: (doc) ->
+                return doc.table == 'posts'
+
+              relativeDirPath: "posts"
+              docpadCollectionName: 'posts'
+
+              extension: ".html"
+              sort: created: 1 # newest first
+              meta:
+                layout: "content"
+            ]
 
     # =================================
     # DocPad Events
