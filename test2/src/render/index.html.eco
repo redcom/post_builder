@@ -7,10 +7,9 @@ isPage: true
 <p>Welcome to My Website!!!</p>
 
 <ul>
-    <% for post in @getCollection('posts'): %>
+    <% for post in @getCollection('posts').toJSON(): %>
     <li>
-        <h3><a href="<%= post.header%>"><%- post.header %></a></h3>
-        <%- post.description %>
+        <a href="<%- post.relativePath %>" ><%- post.title %></a>
     </li>
     <% end %>
 </ul>

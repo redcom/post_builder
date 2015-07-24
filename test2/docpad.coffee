@@ -38,6 +38,10 @@ humanize = (text) ->
     text ?= ''
     return strUtil.humanize text.replace(/^[\-0-9]+/,'').replace(/\..+/,'')
 
+generateUrlPost = (text) ->
+    text ?= ''
+    return strUtil.slugify text
+
 # The DocPad Configuration File
 # It is simply a CoffeeScript Object which is parsed by CSON
 docpadConfig =
@@ -170,13 +174,18 @@ docpadConfig =
               nosqlBinary: dbBinary,
 
               query: (doc) ->
-                return doc.table == 'posts'
-
-              relativeDirPath: "posts"
+                return doc.table == 'posts' && doc.link.indexOf("austria")>-1
               docpadCollectionName: 'posts'
-
-              extension: ".html"
               sort: created: 1 # newest first
+              injectDocumentHelper: (document) ->
+                  document.setMeta(
+                      isArticle: true
+                  )
+                  relativeDirPath = "posts"
+                  extension = ".html"
+                  u =  "#{relativeDirPath}/#{generateUrlPost(document.attributes.header)}#{extension}"
+                  document.attributes.relativePath = u
+
               meta:
                 layout: "content"
             ]

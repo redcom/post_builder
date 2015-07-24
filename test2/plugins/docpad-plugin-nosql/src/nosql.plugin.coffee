@@ -1,5 +1,5 @@
 # Prepare
-NoSql = require("nosql")
+NoSql = require('nosql')
 {TaskGroup} = require('taskgroup')
 _ = require('lodash')
 
@@ -15,7 +15,6 @@ module.exports = (BasePlugin) ->
       collectionDefaults:
         nosqlFile: process.env.NOSQL_FILE
         nosqlBinary: process.env.NOSQL_BINARY
-        relativeDirPath: null # defaults to collectionName
         extension: ".html"
         injectDocumentHelper: null
         collectionName: "nosql"
@@ -37,22 +36,17 @@ module.exports = (BasePlugin) ->
       # Chain
       @
 
-    getBasePath: (collectionConfig) ->
-      "#{collectionConfig.relativeDirPath or collectionConfig.collectionName}/"
-
-
     # Fetch our documents from nosql
     # next(err, mongoDocs)
     fetchNosqlCollection: (collectionConfig, next) ->
 
       NoSql = NoSql.load collectionConfig.nosqlFile, collectionConfig.nosqlBinary
       NoSql.on "load", () ->
-        console.info("NoSql loaded  ", collectionConfig.nosqlFile)
+        #console.info("NoSql loaded from file: ", collectionConfig.nosqlFile)
 
       NoSql.on "error", (err, source) ->
-        console.info("Fail to laod nosql file  #", collectionConfig.nosqlFile)
+        console.info("Fail to load nosql file ", collectionConfig.nosqlFile)
         return next err if err
-
 
       fnMap = (doc) ->
         return doc if collectionConfig.query(doc)
@@ -76,12 +70,10 @@ module.exports = (BasePlugin) ->
         meta: _.defaults(
           {},
           title: doc.header
-          docTitle: doc.header
           collectionConfig.meta,
 
           nosqlCollection: collectionConfig.collectionName
           # todo check for ctime/mtime/date/etc. fields and upgrade them to Date objects (?)
-          relativePath: "#{@getBasePath(collectionConfig)}#{doc.header}#{collectionConfig.extension}"
           original: doc, # this gives the original document without DocPad overwriting certain fields
 
           doc # this puts all of the document attributes into the metadata, but some will be overwritten
@@ -135,7 +127,7 @@ module.exports = (BasePlugin) ->
     # Events
 
     # Populate Collections
-    # Import MongoDB Data into the Database
+    # Import nosql Data into the Database
     populateCollections: (opts, next) ->
       # Prepare
       plugin = @
@@ -165,7 +157,7 @@ module.exports = (BasePlugin) ->
             # Set the collection
             docpad.setCollection(collectionConfig.docpadCollectionName or collectionConfig.collectionName, docs)
 
-            docpad.log('info', "Created DocPad collection \"#{collectionConfig.collectionName}\" with #{docs.length} documents from MongoDB")
+            docpad.log('info', "Created DocPad collection \"#{collectionConfig.collectionName}\" with #{docs.length} documents from nosql")
             complete()
       collectionTasks.run()
 

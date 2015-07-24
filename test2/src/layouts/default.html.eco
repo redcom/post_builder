@@ -61,26 +61,41 @@
         </div>
     </div>
 
-    <div class="container theme-showcase" role="main">
+    <% if @document.isPage: %>
+        <div class="container theme-showcase" role="main">
 
-        <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <h1>Post Builder!</h1>
-            <p>This is a word in progress to reflect the progress of post_builder micro blog</p>
-            <p><a href="#" class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a>
-            </p>
-        </div>
+            <!-- Main jumbotron for a primary marketing message or call to action -->
+            <div class="jumbotron">
+                <h1>Post Builder!</h1>
+                <p>This is a word in progress to reflect the progress of post_builder micro blog</p>
+                <p><a href="#" class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a>
+                </p>
+            </div>
 
-        <div class="page-header" id="templatePageHead">
-            <h1><%= @document.title %></h1>
+            <div class="page-header" id="templatePageHead">
+                <h1><%= @document.title %></h1>
+            </div>
+            <div class="row" id="templatePageTable">
+                <div class="col-md-12">
+                    <%- @content %>
+                </div>
+            </div>
+
         </div>
-        <div class="row" id="templatePageTable">
+    <% end %>
+
+    <% if @document.isArticle: %>
+        <div class="container-fluid" role="post">
+            <div class="page-header" id="templatePageHead">
+                <h1><%= @document.title %></h1>
+            </div>
             <div class="col-md-12">
                 <%- @content %>
             </div>
         </div>
+    <% end %>
 
-    </div>
+
 
     <!-- /container -->
 
