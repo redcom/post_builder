@@ -2,7 +2,45 @@
 layout: default
 ---
 
-<h2><a href="<%= @document.url %>"><%- @document.title or @document.name %></a></h2>
-<div>
-    <%- @content %>
+<% if @document.original.content:  %>
+    <div class="resort_content">
+        <%- @document.original.content  %>
+    </div>
+<% end %>
+<div class="row">
+    <% if @document.original.resort_elevation:  %>
+        <div class="resort_resort_elevation col-md-4">
+            <%- @document.original.resort_elevation  %>
+        </div>
+    <% end %>
+    <div class="col-md-4"></div>
+    <% if @document.original.resort_lifts:  %>
+        <div class="resort_resort_lifts col-md-4">
+            <%- @document.original.resort_lifts  %>
+        </div>
+    <% end %>
 </div>
+<% if @document.original.resort_terrain:  %>
+    <div class="resort_resort_terrain">
+        <%- @document.original.resort_terrain  %>
+    </div>
+<% end %>
+
+
+<% if @document.original.resort_trail: %>
+    <div class="resort_resort_trail">
+        <%- @document.original.resort_trail  %>
+    </div>
+<% end %>
+
+<% if @document.original.resort_contact:  %>
+    <div class="resort_resort_contact">
+        <%- @document.original.resort_contact  %>
+    </div>
+<% end %>
+
+<% if @document.original.map_url:  %>
+    <div class="resort_map_url" id="map_url">
+        <img src='<%- @document.original.map_url %>' />
+    </div>
+<% end %>
