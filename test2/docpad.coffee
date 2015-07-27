@@ -166,13 +166,18 @@ docpadConfig =
     # =================================
     # Plugins
     plugins:
+        menu:
+            menuOptions:
+               optimize: true
+               skipEmpty: true
+               skipFiles: ///\.js|\.scss|\.css/// #regexp are delimited by three forward slashes in coffeescript
         nosql:
             collections: [
               nosqlFile: dbFile,
               nosqlBinary: dbBinary,
 
               query: (doc) ->
-                  return doc.table == 'posts'
+                  return doc.table == 'posts' && doc.link.indexOf('onthesnow')>-1
               docpadCollectionName: 'posts'
               sort: created: 1 # newest first
               injectDocumentHelper: (document) ->

@@ -45,6 +45,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">Post-Builder</a>
+                <nav class="sidebar-nav">
+                    <%- @partial('menu.html.eco', {menuItems: @generateMenu(@document.url, "posts")}) %>
+               </nav>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

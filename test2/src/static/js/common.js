@@ -1,39 +1,3 @@
-var initNavigation = function initNavigation() {
-    window.addEventListener("popstate", function(e) {
-        console.log(e);
-    }, false);
-
-    
-};
-
-var setTableVisible = function() {
-    var table = document.querySelector('#templatePageTable').parentNode;
-    document.querySelector('#templatePageShow').className += ' hidden';
-    table.className = table.className.replace(/(\shidden)+/, '');
-};
-var setPostVisible = function() {
-    document.querySelector('#templatePageTable').parentNode.className += " hidden";
-    var page_show = document.querySelector('#templatePageShow');
-    page_show.className = page_show.className.replace(/(\shidden)+/, '');
-};
-
-var removeVisitedPostsCass = function removeVisitedPostsCass(nodes) {
-    Array.prototype.map.call(nodes, function(val, idx) {
-        if (val.className === " visited") {
-            val.className = val.className.replace(/(\svisited)+/, '');
-        }
-    });
-};
-
-var addEvents = function addEvents() {
-    var actions = document.querySelectorAll('[data-action]');
-
-    Array.prototype.map.call(actions, function(elem, idx) {
-        var action = elem.dataset.action;
-        elem.removeEventListener('click');
-        elem.addEventListener('click', APP[action], false);
-    });
-};
 
 var showAlertInfo = function(elem) {
     if (elem.target.dataset.info) {
@@ -41,4 +5,17 @@ var showAlertInfo = function(elem) {
         target.parentNode.className += 'fade in';
         target.innerText = elem.target.dataset.info;
     }
+};
+
+var initNavigation = function() {
+    var topNavBar = document.querySelectorAll("[role='navigation']")[0];
+    var sidebarNav = document.querySelectorAll('.sidebar-nav')[0];
+    sidebarNav.style.height = document.body.clientHeight;
+    function updateMenuStatus(evt) {
+        if(~evt.target.className.indexOf("navbar-header")) {
+            evt.preventDefault();
+            sidebarNav.className += " active";
+        }
+    }
+    topNavBar.addEventListener('click', updateMenuStatus);
 };

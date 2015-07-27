@@ -14,7 +14,6 @@ var LIB = {
             };
 
             xhr.onerror = function(e) {
-                console.log('Rejected');
                 clearTimeout(timeout);
                 reject(e);
             };

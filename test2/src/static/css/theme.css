@@ -1,26 +1,44 @@
 body {
-  padding-top: 70px;
-  padding-bottom: 30px;
+    padding-top: 70px;
+    padding-bottom: 30px;
 }
-
 .theme-dropdown .dropdown-menu {
-  position: static;
-  display: block;
-  margin-bottom: 20px;
+    position: static;
+    display: block;
+    margin-bottom: 20px;
 }
-
 .theme-showcase > p > .btn {
-  margin: 5px 0;
+    margin: 5px 0;
 }
-
 .theme-showcase .navbar .container {
-  width: auto;
+    width: auto;
 }
-
-.table thead th, .page-header h1 {
+.table thead th,
+.page-header h1 {
     text-transform: capitalize;
 }
-
 .table tbody tr.visited {
     background-color: silver;
+}
+
+div[role="navigation"] .sidebar-nav {
+    top: 50px;
+    position: absolute;
+    -webkit-transition: all 0.3s ease-in;
+    -moz-transition: all 0.3s ease-in;
+    -ms-transition: all 0.3s ease-in;
+    transition: all 0.3s ease-in;
+    word-wrap: break-word;
+    width: 16em;
+    left: -16em;
+    background-color: #eee;
+    padding: 0;
+    overflow: scroll;
+    min-height:20em;
+    height: 100vh;
+}
+
+div[role="navigation"]:hover .sidebar-nav,
+div[role="navigation"].active .sidebar-nav {
+    left: 0;
 }
