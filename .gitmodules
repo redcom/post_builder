@@ -1,0 +1,3 @@
+[submodule "test2/plugins/docpad-plugin-nosql"]
+	path = test2/plugins/docpad-plugin-nosql
+	url = http://github.com/redcom/docpad-plugin-nosql.git
