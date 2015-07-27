@@ -12,7 +12,6 @@ SOURCES = []
 siteUrl = if process.env.NODE_ENV is 'production' then "http://domain.org" else "http://localhost:9778"
 
 getSources = () ->
-    console.log('info', ':::::FOUD # SOURCES:::::::::', SOURCES.length)
     return SOURCES if SOURCES && SOURCES.length>0
     map = (doc) ->
         return doc if doc.table == 'sites'
@@ -22,7 +21,6 @@ getSources = () ->
     db.all(map, cb)
 
 getPosts = () ->
-    console.log('info', ':::::FOUD # POSTS:::::::::', POSTS.length)
     return POSTS if POSTS && POSTS.length>0
     map = (doc) ->
         return doc if doc.table == 'posts'
@@ -174,7 +172,7 @@ docpadConfig =
               nosqlBinary: dbBinary,
 
               query: (doc) ->
-                return doc.table == 'posts' && doc.link.indexOf("austria")>-1
+                  return doc.table == 'posts'
               docpadCollectionName: 'posts'
               sort: created: 1 # newest first
               injectDocumentHelper: (document) ->
