@@ -24,7 +24,6 @@
         "docpad-plugin-copy": "latest",
         "docpad-plugin-eco": "latest",
         "docpad-plugin-marked": "latest",
-        "docpad-plugin-menu": "latest",
         "docpad-plugin-partials": "latest",
         "moment": "^2.10.3",
         "nosql": "^3.0.2",

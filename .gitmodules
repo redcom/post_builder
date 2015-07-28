@@ -1,3 +1,6 @@
 [submodule "client/plugins/docpad-plugin-nosql"]
 	path = client/plugins/docpad-plugin-nosql
 	url = http://github.com/redcom/docpad-plugin-nosql.git
+[submodule "client/plugins/docpad-plugin-menu"]
+	path = client/plugins/docpad-plugin-menu
+	url = git@github.com:redcom/docpad-plugin-menu.git
