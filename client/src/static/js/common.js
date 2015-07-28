@@ -12,10 +12,23 @@ var initNavigation = function() {
     var sidebarNav = document.querySelectorAll('.sidebar-nav')[0];
     sidebarNav.style.height = document.body.clientHeight;
     function updateMenuStatus(evt) {
-        if(~evt.target.className.indexOf("navbar-header")) {
+        var acceptedElems = ["navbar-header", "navbar-brand"];
+        if(~acceptedElems.indexOf(evt.target.className)) {
             evt.preventDefault();
-            sidebarNav.className += " active";
+            sidebarNav.classList.toggle('active');
         }
     }
-    topNavBar.addEventListener('click', updateMenuStatus);
+
+    var handler = {
+        handleEvent: function(evt) {
+            switch(evt.type) {
+                case 'click': updateMenuStatus(evt);
+                    break;
+                case 'touchstart': updateMenuStatus(evt);
+                    break;
+            }
+        }
+    }
+    topNavBar.addEventListener('click', handler, false);
+    topNavBar.addEventListener('touchstart', handler, false);
 };
