@@ -1,48 +1,41 @@
 {
-  "name": "docpad-skeleton-h5bp",
-  "version": "0.1.0",
-  "private": true,
-  "description": "HTML5 Boilerplate skeleton for DocPad. Bare essentials for building a modern website with best practices.",
-  "homepage": "https://github.com/docpad/docpad-skeleton-h5bp",
-  "keywords": [
-    "docpad-skeleton",
-    "docpad",
-    "website",
-    "skeleton",
-    "html5 boilerplate",
-    "h5bp"
-  ],
-  "author": "Bevry Pty Ltd <us@bevry.me> (http://bevry.me)",
-  "maintainers": [
-    "Benjamin Lupton <b@lupton.cc> (http://balupton.com)"
-  ],
-  "contributors": [
-    "Benjamin Lupton <b@lupton.cc> (http://balupton.com)"
-  ],
-  "bugs": {
-    "url": "https://github.com/docpad/docpad-skeleton-h5bp/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/docpad/docpad-skeleton-h5bp.git"
-  },
-  "engines": {
-    "node": "0.12",
-    "npm": "1.3"
-  },
-  "dependencies": {
-    "docpad": "latest",
-    "docpad-plugin-copy": "latest",
-    "docpad-plugin-eco": "latest",
-    "docpad-plugin-marked": "latest",
-    "docpad-plugin-menu": "~2.1.0",
-    "docpad-plugin-partials": "latest",
-    "moment": "^2.10.3",
-    "nosql": "^3.0.2",
-    "underscore.string": "^3.1.1"
-  },
-  "devDependencies": {
-    "docpad-plugin-livereload": "~2.6.1"
-  },
-  "main": "node_modules/docpad/bin/docpad-server"
+    "name": "docpad-skeleton-post-builder",
+    "version": "0.1.1",
+    "private": true,
+    "description": "Boilerplate to create static website using content from a database / nosql.js",
+    "keywords": [],
+    "author": "Razvan Moraru <redcom@gmail.com> (http://github.com/redcom)",
+    "maintainers": [
+        "Razvan Moraru <redcom@gmail.com> (http://github.com/redcom)"
+    ],
+    "contributors": [
+        "Razvan Moraru <redcom@gmail.com> (http://github.com/redcom)"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/redcom/post_builder.git"
+    },
+    "engines": {
+        "node": "0.12",
+        "npm": "1.3"
+    },
+    "dependencies": {
+        "docpad": "latest",
+        "docpad-plugin-copy": "latest",
+        "docpad-plugin-eco": "latest",
+        "docpad-plugin-marked": "latest",
+        "docpad-plugin-menu": "latest",
+        "docpad-plugin-partials": "latest",
+        "moment": "^2.10.3",
+        "nosql": "^3.0.2",
+        "underscore.string": "^3.1.1"
+    },
+    "devDependencies": {
+        "docpad-plugin-livereload": "~2.6.1"
+    },
+    "main": "node_modules/docpad/bin/docpad-server",
+    "scripts": {
+        "start": "./prepare_env_start.sh && docpad clean && docpad run",
+        "deploy": "./prepare_env_deploy.sh && docpad clean && docpad generate --env static -o deploy"
+    }
 }
