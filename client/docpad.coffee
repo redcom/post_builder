@@ -3,13 +3,15 @@ pathUtil = require('path')
 moment = require('moment')
 strUtil = require('underscore.string')
 nosql = require('nosql')
-dbFile = __dirname + '/database/nosql/db.nosql'
-dbBinary = __dirname + '/database/nosql/binary'
-db = nosql.load(dbFile, dbBinary)
+dbFile = process.env.DB_FILE
+dbBinary = process.env.DB_BINARY
 POSTS = []
 SOURCES = []
 
-siteUrl = if process.env.NODE_ENV is 'production' then "http://domain.org" else "http://localhost:9778"
+console.log(process.env)
+
+db = nosql.load(dbFile, dbBinary)
+siteUrl = if process.env.NODE_ENV is 'production' then "http:/austria-ski.ro" else "http://localhost:9778"
 
 getSources = () ->
     return SOURCES if SOURCES && SOURCES.length>0
