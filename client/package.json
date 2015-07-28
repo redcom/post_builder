@@ -35,7 +35,8 @@
     },
     "main": "node_modules/docpad/bin/docpad-server",
     "scripts": {
-        "start": "./prepare_env_start.sh && docpad clean && docpad run",
-        "deploy": "./prepare_env_deploy.sh && docpad clean && docpad generate --env static -o deploy"
+        "start": "export NOSQL_DB_PATH=../database/nosql && docpad clean && docpad run",
+        "deploy": "export NOSQL_DB_PATH=../database/nosql && export NODE_ENV=production && docpad clean && docpad generate --env static -o deploy"
     }
 }
+

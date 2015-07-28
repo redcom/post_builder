@@ -3,12 +3,11 @@ pathUtil = require('path')
 moment = require('moment')
 strUtil = require('underscore.string')
 nosql = require('nosql')
-dbFile = process.env.DB_FILE
-dbBinary = process.env.DB_BINARY
+dbFile = process.env.NOSQL_DB_PATH + '/db.nosql'
+dbBinary = process.env.NOSQL_DB_PATH + '/binary';
 POSTS = []
 SOURCES = []
 
-console.log(process.env)
 
 db = nosql.load(dbFile, dbBinary)
 siteUrl = if process.env.NODE_ENV is 'production' then "http:/austria-ski.ro" else "http://localhost:9778"
@@ -186,7 +185,7 @@ docpadConfig =
                   document.setMeta(
                       isArticle: true
                   )
-                  relativeDirPath = "posts"
+                  relativeDirPath = "resorts"
                   extension = ".html"
                   u =  "#{relativeDirPath}/#{generateUrlPost(document.attributes.header)}#{extension}"
                   document.attributes.relativePath = u
