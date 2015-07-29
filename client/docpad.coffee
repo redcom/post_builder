@@ -63,6 +63,10 @@ docpadConfig =
 
             # The default title of our website
             title: "Your Website"
+            navBadBrand: "Resorts list"
+            homeJumbotronTitle: "Austria Ski Resorts List"
+            homeJumbotronPrime: "Austria Ski Resorts List"
+
 
             # The website description (for SEO)
             description: """
@@ -78,14 +82,11 @@ docpadConfig =
             styles: [ "/vendor/css/bootstrap.min.css",
                       "/vendor/css/bootstrap-theme.min.css",
                       "/css/theme.css",
-                      "/css/custom_onthesnow.css"
+                      "/css/custom.css"
             ]
 
             # The website's scripts
             scripts: [
-                """
-                    <!-- -->
-                """
                 # Vendor
                 "/vendor/js/bootstrap-without-jquery.js"
 
@@ -119,6 +120,9 @@ docpadConfig =
         getPreparedKeywords: ->
             # Merge the document keywords with the site keywords
             @site.keywords.concat(@document.keywords or []).join(', ')
+
+        getNavBarBrand: ->
+            @site.navBadBrand
 
         getSources: getSources
         getPosts: getPosts

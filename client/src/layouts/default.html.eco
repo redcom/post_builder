@@ -39,12 +39,12 @@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only"><%= @getNavBarBrand() %></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Post-Builder</a>
+                <a class="navbar-brand" title="Explore <%= @getNavBarBrand() %>"><%= @getNavBarBrand() %></a>
                 <nav class="sidebar-nav">
                     <%- @partial('menu.html.eco', {menuItems: @generateMenu(@document.url, "posts")}) %>
                </nav>
@@ -69,8 +69,8 @@
 
             <!-- Main jumbotron for a primary marketing message or call to action -->
             <div class="jumbotron">
-                <h1>Post Builder!</h1>
-                <p>This is a word in progress to reflect the progress of post_builder micro blog</p>
+                <h1><%- @site.homeJumbotronTitle %></h1>
+                <p><%- @site.homeJumbotronPrime %></p>
                 <p><a href="#" class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a>
                 </p>
             </div>

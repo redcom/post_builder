@@ -3,7 +3,7 @@
     <% for item in items: %>
         <li<% if item.state: %> class="selected"<% end %>>
             <% if item.state != 'current': %>
-                <a href="<%= item.url %>"><%= item.title %></a>
+                <a href="<%= item.url %>" title="Explore <%= @site.homeJumbotronTitle %> "><%= item.title %></a>
             <% else: %>
                 <strong><%= item.title %></strong>
             <% end %>
