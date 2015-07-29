@@ -21,20 +21,20 @@ layout: default
     <% end %>
 </div>
 <% if @document.original.resort_terrain:  %>
-    <div class="resort_resort_terrain">
+    <div class="resort_terrain">
         <%- @document.original.resort_terrain  %>
     </div>
 <% end %>
 
 
 <% if @document.original.resort_trail: %>
-    <div class="resort_resort_trail">
-        <%- @document.original.resort_trail  %>
+    <div class="resort_trail">
+        <%- @getResortTrail(@document.original.resort_trail)  %>
     </div>
 <% end %>
 
 <% if @document.original.resort_contact:  %>
-    <div class="resort_resort_contact">
+    <div class="resort_contact">
         <%- @document.original.resort_contact  %>
     </div>
 <% end %>

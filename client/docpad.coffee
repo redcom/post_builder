@@ -30,6 +30,10 @@ getPosts = () ->
         return selected if !err
     db.all(map, cb)
 
+getResortTrail = (str) ->
+    str ?= ''
+    return "<img src='#{str.split('|')[0].replace(/\/mid\./, '/xlarge.').replace(/\/mi\./, '/xl.')}' alt='Austria ski resort trail' />"
+
 getSources()
 getPosts()
 # Humanize
@@ -66,6 +70,7 @@ docpadConfig =
             navBadBrand: "Resorts list"
             homeJumbotronTitle: "Austria Ski Resorts List"
             homeJumbotronPrime: "Austria Ski Resorts List"
+            googleAnalyticsId: "UA-65754306-1"
 
 
             # The website description (for SEO)
@@ -126,6 +131,9 @@ docpadConfig =
 
         getSources: getSources
         getPosts: getPosts
+        getResortTrail: getResortTrail
+
+
 
 
     # =================================
