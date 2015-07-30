@@ -20,6 +20,15 @@ body {
 .table tbody tr.visited {
     background-color: silver;
 }
+.table {
+    table-layout: fixed;
+}
+.table, .table th, .table td {
+    overflow: hidden;
+    border-collapse: collapse;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
 div[role="navigation"] .sidebar-nav {
     top: 50px;
