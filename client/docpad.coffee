@@ -32,7 +32,7 @@ getPosts = () ->
 
 getResortTrail = (str) ->
     str ?= ''
-    return "<img src='#{str.split('|')[0].replace(/\/mid\./, '/xlarge.').replace(/\/mi\./, '/xl.')}' alt='Austria ski resort trail' />"
+    return "<img src='#{str.split('|')[0]}' alt='Austria ski resort trail' />"
 
 getSources()
 getPosts()

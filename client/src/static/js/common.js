@@ -24,6 +24,8 @@ var initNavigation = function() {
             switch(evt.type) {
                 case 'click': updateMenuStatus(evt);
                     break;
+                case 'mouseover': updateMenuStatus(evt);
+                    break;
                 case 'touchstart': updateMenuStatus(evt);
                     break;
             }
@@ -31,4 +33,17 @@ var initNavigation = function() {
     }
     topNavBar.addEventListener('click', handler, false);
     topNavBar.addEventListener('touchstart', handler, false);
+    topNavBar.addEventListener('mouseover', handler, false);
+};
+
+var initLazyLoadImages = function initLazyLoadImages() {
+    var img = document.querySelectorAll('.resort_trail img')[0];
+
+    if (img && img.src) {
+        var newImg = new Image();
+        newImg.onload = function() {
+            img.src = newImg.src;
+        }
+        newImg.src = img.src.replace(/\/mid\./, '/xlarge.').replace(/\/mi\./, '/xl.');
+    }
 };

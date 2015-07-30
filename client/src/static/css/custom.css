@@ -240,3 +240,7 @@ div.clear {
 .resort_trail img {
     width: 100%;
 }
+
+div[class^="resort_"] {
+    margin-top:1em;
+}

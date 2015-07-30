@@ -48,7 +48,7 @@ div[role="navigation"] .sidebar-nav {
 }
 
 a.navbar-brand:focus ~ .sidebar-nav,
-div[role="navigation"]:hover .sidebar-nav,
+a.navbar-brand:hover ~ .sidebar-nav,
 nav.sidebar-nav.active,
 nav.sidebar-nav:focus,
 div[role="navigation"].active .sidebar-nav {
